@@ -4,7 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _print = require('./src/print.js');
+var _print = require('./lib/print.js');
 
 var _print2 = _interopRequireDefault(_print);
 

@@ -12,7 +12,7 @@ npm install vue-print-nb --save
 ```javascript
 import Print from 'vue-print-nb'
 
-Vue.use(vueCustomElement);
+Vue.use(Print);
 ```
 
 

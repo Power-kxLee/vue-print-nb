@@ -1,4 +1,4 @@
-import Print from './src/print.js';
+import Print from './lib/print.js';
 Print.install = function(Vue) {
   Vue.directive('print', Print);
 };

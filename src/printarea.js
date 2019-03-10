@@ -59,16 +59,25 @@ export default class {
         extraHead += m;
       });
     }
-    document.querySelectorAll('link').forEach((item, i) => {
-      if (item.href.indexOf('.css') >= 0) {
-        links += `<link type="text/css" rel="stylesheet" href="${item.href}" >`;
-      }
+    [].forEach.call(document.querySelectorAll('link'),function(item, i){
+        if (item.href.indexOf('.css') >= 0) {
+            links += `<link type="text/css" rel="stylesheet" href="${item.href}" >`;
+        }
     });
+
+      // document.querySelectorAll('link').forEach((item, i) => {
+      //   if (item.href.indexOf('.css') >= 0) {
+      //     links += `<link type="text/css" rel="stylesheet" href="${item.href}" >`;
+      //   }
+      // });
+
     for (let i = 0 ; i < document.styleSheets.length; i++) {
       if (document.styleSheets[i].cssRules || document.styleSheets[i].rules) {
         let rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
         for (let b = 0 ; b < rules.length; b++) {
-          style += rules[b].cssText;
+            try {
+                style += rules[b].cssText;
+            }catch(err){}
         }
       }
     }
@@ -92,30 +101,57 @@ export default class {
     let copy = ele.cloneNode(true);
     let copiedInputs = copy.querySelectorAll('input,select,textarea');
 
-    copiedInputs.forEach((item, i) => {
-      let typeInput = item.getAttribute('type');
-      let copiedInput = copiedInputs[i];
-      if (typeInput === undefined) {
-        typeInput = item.tagName === 'SELECT' ? 'select' : item.tagName === 'TEXTAREA' ? 'textarea' : '';
-      }
-      if (typeInput === 'radio' || typeInput === 'checkbox') {
 
-        copiedInput.setAttribute('checked', item.checked);
+    [].forEach.call(copiedInputs,function(item, i){
+        let typeInput = item.getAttribute('type');
+        let copiedInput = copiedInputs[i];
+        if (typeInput === undefined) {
+            typeInput = item.tagName === 'SELECT' ? 'select' : item.tagName === 'TEXTAREA' ? 'textarea' : '';
+        }
+        if (typeInput === 'radio' || typeInput === 'checkbox') {
 
-      } else if (typeInput === 'text' || typeInput === '') {
-        copiedInput.value = item.value;
-        copiedInput.setAttribute('value', item.value);
-      } else if (typeInput === 'select') {
-        copiedInput.querySelectorAll('option').forEach((op, b) => {
-          if (op.selected) {
-            op.setAttribute('selected', true);
-          };
-        });
-      } else if (typeInput === 'textarea') {
-        copiedInput.value = item.value;
-        copiedInput.setAttribute('value', item.value);
-      }
+            copiedInput.setAttribute('checked', item.checked);
+
+        } else if (typeInput === 'text' || typeInput === '') {
+            copiedInput.value = item.value;
+            copiedInput.setAttribute('value', item.value);
+        } else if (typeInput === 'select') {
+            copiedInput.querySelectorAll('option').forEach((op, b) => {
+                if (op.selected) {
+                    op.setAttribute('selected', true);
+                };
+            });
+        } else if (typeInput === 'textarea') {
+            copiedInput.value = item.value;
+            copiedInput.setAttribute('value', item.value);
+        }
     });
+
+
+    // copiedInputs.forEach((item, i) => {
+    //   let typeInput = item.getAttribute('type');
+    //   let copiedInput = copiedInputs[i];
+    //   if (typeInput === undefined) {
+    //     typeInput = item.tagName === 'SELECT' ? 'select' : item.tagName === 'TEXTAREA' ? 'textarea' : '';
+    //   }
+    //   if (typeInput === 'radio' || typeInput === 'checkbox') {
+    //
+    //     copiedInput.setAttribute('checked', item.checked);
+    //
+    //   } else if (typeInput === 'text' || typeInput === '') {
+    //     copiedInput.value = item.value;
+    //     copiedInput.setAttribute('value', item.value);
+    //   } else if (typeInput === 'select') {
+    //     copiedInput.querySelectorAll('option').forEach((op, b) => {
+    //       if (op.selected) {
+    //         op.setAttribute('selected', true);
+    //       };
+    //     });
+    //   } else if (typeInput === 'textarea') {
+    //     copiedInput.value = item.value;
+    //     copiedInput.setAttribute('value', item.value);
+    //   }
+    // });
     return copy;
   };
   getPrintWindow() {

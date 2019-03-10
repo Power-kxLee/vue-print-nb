@@ -1,4 +1,4 @@
-# vue-print-nb
+# vue-print-nb-jeecg
 
 This is a directive wrapper for printed, Simple, fast, convenient, light.
 
@@ -6,7 +6,7 @@ This is a directive wrapper for printed, Simple, fast, convenient, light.
 
 #### NPM
 ```bash
-npm install vue-print-nb --save
+npm install vue-print-nb-jeecg --save
 ```
 
 ```javascript

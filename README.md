@@ -10,7 +10,7 @@ npm install vue-print-nb-jeecg --save
 ```
 
 ```javascript
-import Print from 'vue-print-nb'
+import Print from 'vue-print-nb-jeecg'
 
 Vue.use(Print);
 ```

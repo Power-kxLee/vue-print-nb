@@ -1,6 +1,7 @@
 # vue-print-nb-jeecg
 
 This is a directive wrapper for printed, Simple, fast, convenient, light.
+( 特定改造版本： 解决IE兼容问题 )
 
 ## Install
 

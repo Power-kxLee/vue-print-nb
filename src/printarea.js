@@ -1,3 +1,4 @@
+alert(2)
 export default class {
   constructor(option) {
     this.standards = {
@@ -27,19 +28,23 @@ export default class {
     let PrintAreaWindow = this.getPrintWindow(); // 创建iframe
     this.write(PrintAreaWindow.doc); // 写入内容
     this.print(PrintAreaWindow);
-    this.settings.endCallback();
+      this.settings.endCallback();
   };
-  print(PAWindow) {
+  print(PAWindow, $ele) {
+    console.log(PAWindow);
     let paWindow = PAWindow.win;
-    paWindow.onload = () => {
+   /// paWindow.onload = () => {
+      console.log('---调用打印 focus-----');
       paWindow.focus();
       paWindow.print();
-    };
+      console.log('---调用打印 print-----');
+   // };
   };
   write(PADocument, $ele) {
     PADocument.open();
     PADocument.write(`${this.docType()}<html>${this.getHead()}${this.getBody()}</html>`);
     PADocument.close();
+    console.log('---加载打印数据-----');
   };
   docType() {
     if (this.settings.standard === this.standards.html5) {

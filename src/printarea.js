@@ -1,4 +1,3 @@
-alert(2)
 export default class {
   constructor(option) {
     this.standards = {
@@ -27,24 +26,20 @@ export default class {
     }
     let PrintAreaWindow = this.getPrintWindow(); // 创建iframe
     this.write(PrintAreaWindow.doc); // 写入内容
-    this.print(PrintAreaWindow);
-      this.settings.endCallback();
+    //this.print(PrintAreaWindow);
+    this.settings.endCallback();
   };
-  print(PAWindow, $ele) {
-    console.log(PAWindow);
-    let paWindow = PAWindow.win;
-   /// paWindow.onload = () => {
-      console.log('---调用打印 focus-----');
-      paWindow.focus();
-      paWindow.print();
-      console.log('---调用打印 print-----');
-   // };
+  print(PAWindow) {
+    let paWindow = PAWindow;
+	console.log('---调用打印 focus-----');
+	paWindow.focus();
+	paWindow.print();
+	console.log('---调用打印 print-----');
   };
   write(PADocument, $ele) {
     PADocument.open();
     PADocument.write(`${this.docType()}<html>${this.getHead()}${this.getBody()}</html>`);
     PADocument.close();
-    console.log('---加载打印数据-----');
   };
   docType() {
     if (this.settings.standard === this.standards.html5) {
@@ -64,25 +59,19 @@ export default class {
         extraHead += m;
       });
     }
-    [].forEach.call(document.querySelectorAll('link'),function(item, i){
+	[].forEach.call(document.querySelectorAll('link'), function (item, i) {
         if (item.href.indexOf('.css') >= 0) {
-            links += `<link type="text/css" rel="stylesheet" href="${item.href}" >`;
+          links += '<link type="text/css" rel="stylesheet" href="' + item.href + '" >';
         }
     });
-
-      // document.querySelectorAll('link').forEach((item, i) => {
-      //   if (item.href.indexOf('.css') >= 0) {
-      //     links += `<link type="text/css" rel="stylesheet" href="${item.href}" >`;
-      //   }
-      // });
-
+   
     for (let i = 0 ; i < document.styleSheets.length; i++) {
       if (document.styleSheets[i].cssRules || document.styleSheets[i].rules) {
         let rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
         for (let b = 0 ; b < rules.length; b++) {
-            try {
-                style += rules[b].cssText;
-            }catch(err){}
+		  try {
+              style += rules[b].cssText;
+            } catch (err) {}
         }
       }
     }
@@ -106,57 +95,30 @@ export default class {
     let copy = ele.cloneNode(true);
     let copiedInputs = copy.querySelectorAll('input,select,textarea');
 
+    copiedInputs.forEach((item, i) => {
+      let typeInput = item.getAttribute('type');
+      let copiedInput = copiedInputs[i];
+      if (typeInput === undefined) {
+        typeInput = item.tagName === 'SELECT' ? 'select' : item.tagName === 'TEXTAREA' ? 'textarea' : '';
+      }
+      if (typeInput === 'radio' || typeInput === 'checkbox') {
 
-    [].forEach.call(copiedInputs,function(item, i){
-        let typeInput = item.getAttribute('type');
-        let copiedInput = copiedInputs[i];
-        if (typeInput === undefined) {
-            typeInput = item.tagName === 'SELECT' ? 'select' : item.tagName === 'TEXTAREA' ? 'textarea' : '';
-        }
-        if (typeInput === 'radio' || typeInput === 'checkbox') {
+        copiedInput.setAttribute('checked', item.checked);
 
-            copiedInput.setAttribute('checked', item.checked);
-
-        } else if (typeInput === 'text' || typeInput === '') {
-            copiedInput.value = item.value;
-            copiedInput.setAttribute('value', item.value);
-        } else if (typeInput === 'select') {
-            copiedInput.querySelectorAll('option').forEach((op, b) => {
-                if (op.selected) {
-                    op.setAttribute('selected', true);
-                };
-            });
-        } else if (typeInput === 'textarea') {
-            copiedInput.value = item.value;
-            copiedInput.setAttribute('value', item.value);
-        }
+      } else if (typeInput === 'text' || typeInput === '') {
+        copiedInput.value = item.value;
+        copiedInput.setAttribute('value', item.value);
+      } else if (typeInput === 'select') {
+        copiedInput.querySelectorAll('option').forEach((op, b) => {
+          if (op.selected) {
+            op.setAttribute('selected', true);
+          };
+        });
+      } else if (typeInput === 'textarea') {
+        copiedInput.value = item.value;
+        copiedInput.setAttribute('value', item.value);
+      }
     });
-
-
-    // copiedInputs.forEach((item, i) => {
-    //   let typeInput = item.getAttribute('type');
-    //   let copiedInput = copiedInputs[i];
-    //   if (typeInput === undefined) {
-    //     typeInput = item.tagName === 'SELECT' ? 'select' : item.tagName === 'TEXTAREA' ? 'textarea' : '';
-    //   }
-    //   if (typeInput === 'radio' || typeInput === 'checkbox') {
-    //
-    //     copiedInput.setAttribute('checked', item.checked);
-    //
-    //   } else if (typeInput === 'text' || typeInput === '') {
-    //     copiedInput.value = item.value;
-    //     copiedInput.setAttribute('value', item.value);
-    //   } else if (typeInput === 'select') {
-    //     copiedInput.querySelectorAll('option').forEach((op, b) => {
-    //       if (op.selected) {
-    //         op.setAttribute('selected', true);
-    //       };
-    //     });
-    //   } else if (typeInput === 'textarea') {
-    //     copiedInput.value = item.value;
-    //     copiedInput.setAttribute('value', item.value);
-    //   }
-    // });
     return copy;
   };
   getPrintWindow() {
@@ -169,7 +131,7 @@ export default class {
   Iframe() {
     let frameId = this.settings.id;
     let iframe;
-
+	var that = this;
     try {
       iframe = document.createElement('iframe');
       document.body.appendChild(iframe);
@@ -182,6 +144,10 @@ export default class {
       iframe.setAttribute('id', frameId);
       iframe.setAttribute('src', new Date().getTime());
       iframe.doc = null;
+	  iframe.onload = function () {
+		var win = iframe.contentWindow || iframe;
+		that.print(win);
+	  }
       iframe.doc = iframe.contentDocument ? iframe.contentDocument : (iframe.contentWindow ? iframe.contentWindow.document : iframe.document);
     } catch (e) {
       throw new Error(e + '. iframes may not be supported in this browser.');

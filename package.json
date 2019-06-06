@@ -1,22 +1,51 @@
 {
   "name": "vue-print-nb",
-  "version": "1.0.2",
-  "description": "",
-  "main": "index.es5.js",
+  "version": "1.1.3",
+  "description": "Vue plug-in, print! Good!",
+  "main": "lib/tag-textarea.umd.min.js",
+  "author": "Power-kxLee",
+  "private": false,
+  "license": "MIT",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "compile": "babel -d lib/ src/",
-    "index": "babel index.js --out-file index.es5.js",
-    "prepublish": "npm run compile & npm run index"
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-2": "^6.24.1"
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name tag-textarea --dest lib src/index.js"
   },
   "dependencies": {
-    "babel-plugin-transform-runtime": "^6.23.0"
-  }
+    "core-js": "^2.6.5",
+    "vue": "^2.6.10"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-plugin-eslint": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ],
+    "rules": {},
+    "parserOptions": {
+      "parser": "babel-eslint"
+    }
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }

@@ -14,7 +14,7 @@ export default class {
             extraCss: '', // 额外的css逗号分隔
             popTitle: '', // 标题
             endCallback: null, // 成功打开后的回调函数
-            el: '' // 局部打印的id
+            ids: '' // 局部打印的id
         };
         Object.assign(this.settings, option);
 
@@ -28,9 +28,9 @@ export default class {
         this.print(PrintAreaWindow);
         this.settings.endCallback();
         let box = document.getElementById(this.settings.id);
-        if (box) {
-            box.parentNode.removeChild(box);
-        }
+        // if (box) {
+        //     box.parentNode.removeChild(box);
+        // }
     }
     print(PAWindow) {
         let paWindow = PAWindow.win;
@@ -59,6 +59,7 @@ export default class {
         let extraHead = '';
         let links = '';
         let style = '';
+        console.log(this.settings.extraHead);
         if (this.settings.extraHead) {
             this.settings.extraHead.replace(/([^,]+)/g, (m) => {
                 extraHead += m;
@@ -93,7 +94,9 @@ export default class {
         return `<head><title>${this.settings.popTitle}</title>${extraHead}${links}<style type="text/css">${style}</style></head>`;
     }
     getBody() {
-        let ele = this.getFormData(document.querySelector(this.settings.el));
+        let ids = this.settings.ids;
+        ids = ids.replace(new RegExp("#","g"), '');
+        let ele = this.getFormData(document.querySelector('#' + ids));
         let htm = ele.outerHTML;
         return '<body>' + htm + '</body>';
     }

@@ -59,7 +59,6 @@ export default class {
         let extraHead = '';
         let links = '';
         let style = '';
-        console.log(this.settings.extraHead);
         if (this.settings.extraHead) {
             this.settings.extraHead.replace(/([^,]+)/g, (m) => {
                 extraHead += m;
@@ -76,19 +75,22 @@ export default class {
             }
         }
         // 循环获取style标签的样式
-        for (let i = 0 ; i < document.styleSheets.length; i++) {
-            if (document.styleSheets[i].cssRules || document.styleSheets[i].rules) {
-                let rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
-                for (let b = 0 ; b < rules.length; b++) {
-                    style += rules[b].cssText;
-                }
-            }
-        }
+		if (document.styleSheets && document.styleSheets.length > 0) {
+			for (let i = 0 ; i < document.styleSheets.length; i++) {
+				if (document.styleSheets[i].cssRules || document.styleSheets[i].rules) {
+					let rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
+					for (let b = 0 ; b < rules.length; b++) {
+						style += rules[b].cssText;
+					}
+				}
+			}
+		}
 
         if (this.settings.extraCss) {
             this.settings.extraCss.replace(/([^,\s]+)/g, (m) => {
                 links += `<link type="text/css" rel="stylesheet" href="${m}">`;
             });
+			
         }
 
         return `<head><title>${this.settings.popTitle}</title>${extraHead}${links}<style type="text/css">${style}</style></head>`;
@@ -96,7 +98,8 @@ export default class {
     getBody() {
         let ids = this.settings.ids;
         ids = ids.replace(new RegExp("#","g"), '');
-        let ele = this.getFormData(document.querySelector('#' + ids));
+		let elsdom = document.getElementById(ids);
+        let ele = this.getFormData(elsdom);
         let htm = ele.outerHTML;
         return '<body>' + htm + '</body>';
     }

@@ -1,6 +1,6 @@
 {
   "name": "vue-print-nb",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Vue plug-in, print! Good!",
   "main": "lib/tag-textarea.umd.min.js",
   "author": "Power-kxLee",

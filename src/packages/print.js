@@ -26,9 +26,9 @@ export default {
 				} else {
 					// 直接全局打印
 					window.print();
-				}
-			});
-        });
+				}});
+
+			        });
         const localPrint = () => {
 			if (closeBtn) {
 				closeBtn = false;

@@ -27,18 +27,28 @@ export default class {
         this.write(PrintAreaWindow.doc); // 写入内容
         this.print(PrintAreaWindow);
         this.settings.endCallback();
-        let box = document.getElementById(this.settings.id);
-        // if (box) {
-        //     box.parentNode.removeChild(box);
-        // }
+        
     }
     print(PAWindow) {
         let paWindow = PAWindow.win;
         const _loaded = () => {
             paWindow.focus();
             paWindow.print();
+			try{
+				let box = document.getElementById(this.settings.id);
+			    box.parentNode.removeChild(box);
+				
+			}catch(e){
+				console.log(e);
+			}
         };
-        paWindow.onload = _loaded();
+		if(!!window.ActiveXObject) {
+			paWindow.onload = _loaded();
+			return false;
+		}
+        paWindow.onload = () => {
+			_loaded();
+		};
     }
     write(PADocument, $ele) {
         PADocument.open();
@@ -75,13 +85,18 @@ export default class {
             }
         }
         // 循环获取style标签的样式
-		if (document.styleSheets && document.styleSheets.length > 0) {
-			for (let i = 0 ; i < document.styleSheets.length; i++) {
-				if (document.styleSheets[i].cssRules || document.styleSheets[i].rules) {
-					let rules = document.styleSheets[i].cssRules || document.styleSheets[i].rules;
-					for (let b = 0 ; b < rules.length; b++) {
-						style += rules[b].cssText;
+		let domStyle = document.styleSheets;
+		if (domStyle && domStyle.length > 0) {
+			for (let i = 0 ; i < domStyle.length; i++) {
+				try{
+					if (domStyle[i].cssRules || domStyle[i].rules) {
+						let rules = domStyle[i].cssRules || domStyle[i].rules;
+						for (let b = 0 ; b < rules.length; b++) {
+							style += rules[b].cssText;
+						}
 					}
+				}catch(e){
+					console.log( domStyle[i].href + e);
 				}
 			}
 		}

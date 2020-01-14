@@ -11,8 +11,17 @@ npm install vue-print-nb --save
 
 ```javascript
 import Print from 'vue-print-nb'
-
+// Global instruction 
 Vue.use(Print);
+
+//or
+
+// Local instruction
+import print from 'vue-print-nb'
+
+directives: {
+    print   
+}
 ```
 ## Run demo
 Download the project, install dependencies, run demo

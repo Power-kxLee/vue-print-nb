@@ -1,6 +1,5 @@
 export default class {
   constructor(option) {
-
     this.standards = {
       strict: 'strict',
       loose: 'loose',
@@ -37,7 +36,6 @@ export default class {
       try {
         let box = document.getElementById(this.settings.id);
         let canvasList = this.elsdom.querySelectorAll('.canvasImg')
-        console.log(this.elsdom)
         for (let i = 0; i < canvasList.length; i++) {
           let _parent = canvasList[i].parentNode
           _parent.removeChild(canvasList[i])

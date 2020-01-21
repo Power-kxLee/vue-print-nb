@@ -49,7 +49,8 @@
 					id: "printMe",
 					popTitle: 'good print',
 					extraCss: 'https://www.baidu.com/,https://www.baidu.com/',
-					extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>'
+          extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
+          endCallback: () => console.log('callback return')
 				}
 			};
 		},

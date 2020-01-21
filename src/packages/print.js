@@ -40,7 +40,8 @@ export default {
 					extraCss: binding.value.extraCss, // 额外的css连接，多个逗号分开
 					popTitle: binding.value.popTitle, // title的标题
 					endCallback() { // 调用打印之后的回调事件
-						closeBtn = true;
+            closeBtn = true;
+            binding.value.endCallback();
 					}
 				});
 			}

@@ -1,8 +1,8 @@
 import Print from './printarea.js';
 /**
  * @file 打印
- * 指令`v-print`,默认打印整个窗口
- * 传入参数`v-print="'#id'"` , 参数为需要打印局部的盒子标识.
+ * 指令`v-print`, 默认打印整个窗口
+ * 传入参数`v-print="'#id'"`, 参数为需要打印局部的盒子标识.
  */
 export default {
 	directiveName: 'print',
@@ -20,8 +20,8 @@ export default {
 					let elsdom = document.getElementById(ids);
 					if (!elsdom) console.log("id in Error"), id = '';
 				}
-				// 局部打印
 				if (id) {
+					// 局部打印
 					localPrint();
 				} else {
 					// 直接全局打印

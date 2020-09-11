@@ -23,11 +23,11 @@ export default class {
   init() {
     this.counter++;
     this.settings.id = `printArea_${this.counter}`;
-    let PrintAreaWindow = this.getPrintWindow(); // 创建iframe
+    const PrintAreaWindow = this.getPrintWindow(); // 创建iframe
     this.write(PrintAreaWindow.doc); // 写入内容
     this.print(PrintAreaWindow);
     this.settings.endCallback();
-
+    
   }
   print(PAWindow) {
     let paWindow = PAWindow.win;
@@ -214,9 +214,9 @@ export default class {
     };
   }
   Iframe() {
-    let frameId = this.settings.id;
+    const frameId = this.settings.id;
     let iframe;
-    let that = this
+    const that = this;
     try {
       iframe = document.createElement('iframe');
       document.body.appendChild(iframe);
@@ -231,7 +231,7 @@ export default class {
       iframe.doc = null;
       iframe.doc = iframe.contentDocument ? iframe.contentDocument : (iframe.contentWindow ? iframe.contentWindow.document : iframe.document);
       iframe.onload = function () {
-        var win = iframe.contentWindow || iframe;
+        const win = iframe.contentWindow || iframe;
         that.print(win);
       }
     } catch (e) {

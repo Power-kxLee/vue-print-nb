@@ -29,23 +29,19 @@ export default class {
         this.settings.endCallback();
 
     }
-    loadWindow(win = window) {
-        return new Promise((resolve, reject) => {
-            try {
-                if (win.addEventListener) {
-                    win.addEventListener('load', resolve(win), false)
-                } else if (win.attachEvent) {
-                    win.attachEvent('onload', resolve(win))
-                } else {
-                    win.onload = new function () {
-                        resolve(win)
-                    }
-                }
-            } catch (e) {
-                reject(e)
-            }
+    loadWindow(iframeWin = window, callback) {
+        if (iframeWin.ActiveXObject) {
+            iframeWin.onload = callback();
+        } else if(iframeWin.addEventListener) {
+            iframeWin.addEventListener('load', callback, false)
 
-        })
+        } else if (iframeWin.attachEvent) {
+            iframeWin.attachEvent('onload', callback)
+        } else {
+            iframeWin.onload = new function () {
+                callback()
+            }
+        }
     }
     print() {
         let iframe = document.getElementById(this.settings.id);
@@ -65,18 +61,9 @@ export default class {
                 console.log(e);
             }
         };
-       
-        if (iframeWin.ActiveXObject) {
-            iframeWin.onload = _loaded();
-        } else if(iframeWin.addEventListener) {
-            iframeWin.addEventListener('load', _loaded(), false)
-        } else if (iframeWin.attachEvent) {
-            iframeWin.attachEvent('onload', _loaded())
-        } else {
-            iframeWin.onload = new function () {
-                _loaded();
-            }
-        }
+        setTimeout(() => {
+            this.loadWindow(iframeWin, _loaded())
+        });
     }
     write(PADocument) {
         PADocument.open();

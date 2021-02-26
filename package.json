@@ -1,6 +1,6 @@
 {
   "name": "vue-print-nb",
-  "version": "1.4.0",
+  "version": "1.6.0",
   "description": "Vue plug-in, print! Good!",
   "main": "lib/print.umd.min.js",
   "author": "Power-kxLee",
@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "echarts": "^5.0.2",
     "qrcodejs2": "0.0.2",
     "vue": "^2.6.11"
   },

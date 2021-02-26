@@ -1,14 +1,20 @@
 {
   "name": "vue-print-nb",
-  "version": "0.1.0",
-  "private": true,
+  "version": "1.4.0",
+  "description": "Vue plug-in, print! Good!",
+  "main": "lib/print.umd.min.js",
+  "author": "Power-kxLee",
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "lib": "vue-cli-service build --target lib --name print --dest lib print/index.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
+    "qrcodejs2": "0.0.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {

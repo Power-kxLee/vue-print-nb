@@ -29,6 +29,7 @@ Download the project, install dependencies, run demo
 npm run serve
 -Local:   http://localhost:8080/
 ```
+![](https://github.com/Power-kxLee/vue-print-nb/blob/master/src/img/Chrome.png)
 
 ## Description
 

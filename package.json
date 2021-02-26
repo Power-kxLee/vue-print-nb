@@ -13,12 +13,12 @@
     "lib": "vue-cli-service build --target lib --name print --dest lib print/index.js"
   },
   "dependencies": {
-    "core-js": "^3.6.5",
-    "echarts": "^5.0.2",
-    "qrcodejs2": "0.0.2",
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "core-js": "^3.6.5",
+    "echarts": "^5.0.2",
+    "qrcodejs2": "0.0.2",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",

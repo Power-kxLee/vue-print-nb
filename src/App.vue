@@ -1,10 +1,20 @@
 <template>
   <div id="app">
+    <div id="loading">
+
+    </div>
     <div v-if="config">
       <button v-print="printObj">Print the entire page</button>
-      <div id="printMe" style="background: #dac9c9">
+      <div class="box"
+           v-show="printLoading">
+        <div class="loader-04"></div>
+        正在处理...请稍等
+      </div>
+      <div id="printMe"
+           style="background: #dac9c9">
         <div ref="qrcode"></div>
-        <div ref="echartMain" :style="{width: '300px', height: '300px'}"></div>
+        <div ref="echartMain"
+             :style="{width: '300px', height: '300px'}"></div>
         <input type="number" />
         <input type="time" />
         <input type="checkbox" />
@@ -22,7 +32,10 @@
           <option value="mercedes">Mercedes</option>
           <option value="audi">Audi</option>
         </select>
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <textarea name=""
+                  id=""
+                  cols="30"
+                  rows="10"></textarea>
         <p>葫芦娃，葫芦娃</p>
         <p style="background: yellow">一根藤上七朵花</p>
         <p>小小树藤是我家 啦啦啦啦</p>
@@ -45,18 +58,31 @@ import QRCode from "qrcodejs2";
 import * as echarts from "echarts";
 export default {
   name: "app",
-  data() {
+  data () {
     return {
       config: true,
+      printLoading: false,
       printObj: {
         id: "printMe",
         popTitle: "good print",
-        extraCss: "https://www.baidu.com/,https://www.baidu.com/",
+        extraCss: "https://www.google.com/css/css1.css, https://www.google.com/css/css2.css",
         extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
+        beforeOpenCallback: function (vue) {
+          vue.printLoading = true
+          console.log('打开之前')
+        },
+        openCallback (vue) {
+          vue.printLoading = false
+          console.log('成功调用打印后的callback')
+        },
+        closeCallback () {
+          console.log('关闭了打印工具')
+        }
+
       },
     };
   },
-  mounted() {
+  mounted () {
     this.$nextTick(() => {
       this.echart();
       new QRCode(this.$refs.qrcode, {
@@ -67,7 +93,11 @@ export default {
     });
   },
   methods: {
-    echart() {
+    beforeOpen () {
+      this.printLoading = true
+      console.log('准备打开')
+    },
+    echart () {
       let myChart = echarts.init(this.$refs.echartMain);
       myChart.setOption({
         title: {
@@ -91,7 +121,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -99,5 +129,51 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+[class*="loader-"] {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  color: inherit;
+  vertical-align: middle;
+  pointer-events: none;
+}
+.loader-04 {
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  -webkit-animation: 1s loader-04 linear infinite;
+  animation: 1s loader-04 linear infinite;
+  position: relative;
+}
+.loader-04:before {
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: -0.2em;
+  left: 50%;
+  border: 0.2em solid currentcolor;
+  border-radius: 50%;
+}
+@-webkit-keyframes loader-04 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader-04 {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 </style>

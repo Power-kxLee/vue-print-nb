@@ -1,13 +1,27 @@
 # vue-print-nb
 
 This is a directive wrapper for printed, Simple, fast, convenient, light.
+<!-- TOC -->
 
+- [vue-print-nb](#vue-print-nb)
+  - [Install](#install)
+    - [Vue2 Version:](#vue2-version)
+    - [Vue3 Version:](#vue3-version)
+  - [Description](#description)
+      - [Print the entire page:](#print-the-entire-page)
+      - [Print local range:](#print-local-range)
+      - [More](#more)
+    - [v-print API](#v-print-api)
+  - [License](#license)
+
+<!-- /TOC -->
 ## Install
 
-#### NPM
+### Vue2 Version:
 ```bash
 npm install vue-print-nb --save
 ```
+
 
 ```javascript
 import Print from 'vue-print-nb'
@@ -23,12 +37,31 @@ directives: {
     print   
 }
 ```
-## Run demo
-Download the project, install dependencies, run demo
+### Vue3 Version:
+```bash
+npm install vue3-print-nb --save
 ```
-npm run serve
--Local:   http://localhost:8080/
+
+```javascript
+// Global instruction 
+import { createApp } from 'vue'
+import App from './App.vue'
+import print from 'vue3-print-nb'
+const app = createApp(App)
+app.use(print)
+app.mount('#app')
+
+//or
+
+// Local instruction
+import print from 'vue3-print-nb'
+
+directives: {
+    print   
+}
 ```
+
+
 ![](https://github.com/Power-kxLee/vue-print-nb/blob/master/src/img/Chrome.png)
 
 ## Description
@@ -114,8 +147,8 @@ You can also pass in an object type `Objcet`
 | extraCss           | `<link>` New CSS style sheet , and separate multiple nodes with `,`            | String   | —                                                 | -            |
 | popTitle           | `<title></title>` Content of label                                             | String   | —                                                 | -            |
 | openCallback       | Call the successful callback function of the printing tool                     | Function | Returns the instance of `Vue` called at that time | -            |
-| closeCallback      | Close the callback function of printing tool success                           | Function | Returns the instance of `Vue` called at that time | false        |
-| beforeOpenCallback | Callback function before calling printing tool                                 | Function | Returns the instance of `Vue` called at that time | false        |
+| closeCallback      | Close the callback function of printing tool success                           | Function | Returns the instance of `Vue` called at that time | -            |
+| beforeOpenCallback | Callback function before calling printing tool                                 | Function | Returns the instance of `Vue` called at that time | -            |
 
 ## License
 

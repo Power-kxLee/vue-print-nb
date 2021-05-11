@@ -2,7 +2,7 @@
  * @Author: lee
  * @Date: 2021-05-10 11:45:50
  * @LastEditors: lee
- * @LastEditTime: 2021-05-10 15:07:47
+ * @LastEditTime: 2021-05-11 14:07:23
  * @Description: file content
  */
 import Print from './printarea.js';
@@ -47,14 +47,14 @@ export default {
           extraCss: binding.value.extraCss, // 额外的css连接，多个逗号分开
           popTitle: binding.value.popTitle, // title的标题
           openCallback () { // 调用打印之后的回调事件
-            binding.value.openCallback(vue)
+            binding.value.openCallback && binding.value.openCallback(vue)
             closeBtn = true;
           },
           closeCallback () {
-            binding.value.closeCallback(vue)
+            binding.value.closeCallback && binding.value.closeCallback(vue)
           },
           beforeOpenCallback () {
-            binding.value.beforeOpenCallback(vue)
+            binding.value.beforeOpenCallback && binding.value.beforeOpenCallback(vue)
           }
         });
       }

@@ -62,18 +62,47 @@ export default {
     return {
       config: true,
       printLoading: false,
-      printObj: {
-        id: "printMe",
-        popTitle: "good print",
-        extraCss: "https://www.google.com/css/css1.css, https://www.google.com/css/css2.css",
-        extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
+
+      printUrl: {
+        url: 'http://localhost:8080/ ',
+        preview: true,
+        previewTitle: '订单123456 打印',
+        asyncUrl (reslove) {
+          setTimeout(() => {
+            reslove('http://localhost:8080/')
+          }, 2000)
+        },
+        previewBeforeOpenCallback () {
+          console.log('正在加载预览窗口')
+        },
+        previewOpenCallback () {
+          console.log('已经加载完预览窗口')
+        },
         beforeOpenCallback: function (vue) {
           vue.printLoading = true
-          console.log('打开之前')
+          console.log('正在准备打印控件')
         },
         openCallback (vue) {
           vue.printLoading = false
-          console.log('成功调用打印后的callback')
+          console.log('已经打开了 打印控件')
+        },
+        closeCallback () {
+          console.log('关闭了打印工具')
+        }
+      },
+      printObj: {
+        id: "printMe",
+        preview: true,
+        popTitle: "good print",
+        extraCss: "https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css, https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css",
+        extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
+        beforeOpenCallback: function (vue) {
+          vue.printLoading = true
+          console.log('正在准备打印控件')
+        },
+        openCallback (vue) {
+          vue.printLoading = false
+          console.log('已经打开了 打印控件')
         },
         closeCallback () {
           console.log('关闭了打印工具')

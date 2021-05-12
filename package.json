@@ -16,6 +16,7 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
+    "vue-router": "^3.5.1",
     "core-js": "^3.6.5",
     "echarts": "^5.0.2",
     "qrcodejs2": "0.0.2",

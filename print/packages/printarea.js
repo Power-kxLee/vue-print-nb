@@ -6,6 +6,9 @@ export default class {
       loose: 'loose',
       html5: 'html5'
     };
+    this.previewBody = null;
+    this.close = null;
+    this.previewBodyUtilPrintBtn = null;
     this.selectArray = []; // 存储select的
     this.counter = 0;
     this.settings = {
@@ -17,14 +20,89 @@ export default class {
   init () {
     this.counter++;
     this.settings.id = `printArea_${this.counter}`;
-    let PrintAreaWindow = this.getPrintWindow(); // 创建iframe
-    this.write(PrintAreaWindow.doc); // 写入内容
-    this.print(PrintAreaWindow);
+    let url = ''
+    if (this.settings.url && !this.settings.asyncUrl) {
+      url = this.settings.url
+    }
+    let _this = this
+    // 如果是异步的
+    if (this.settings.asyncUrl) {
+
+      _this.settings.asyncUrl(function (url) {
+        let PrintAreaWindow = _this.getPrintWindow(url); // 创建iframe
+        if (_this.settings.preview) {
+          // 打开预览弹窗
+          _this.previewIfrmaeLoad()
+        } else {
+          // 直接打印
+          _this.print(PrintAreaWindow);
+        }
+      })
+      return
+    }
+    let PrintAreaWindow = this.getPrintWindow(url); // 创建iframe
+
+    if (!this.settings.url) {
+      this.write(PrintAreaWindow.doc); // 写入内容
+    }
+
+    if (this.settings.preview) {
+      // 打开预览弹窗
+      this.previewIfrmaeLoad()
+    } else {
+      // 直接打印
+      this.print(PrintAreaWindow);
+    }
   }
-  print () {
+  addEvent (element, type, callback) {
+    if (element.addEventListener) {
+      element.addEventListener(type, callback, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + type, callback);
+    } else {
+      element['on' + type] = callback;
+    }
+  }
+  previewIfrmaeLoad () {
+    let box = document.getElementById('vue-pirnt-nb-previewBox')
+
+    if (box) {
+      let _this = this
+      let iframe = box.querySelector('iframe')
+      this.settings.previewBeforeOpenCallback()
+      this.addEvent(iframe, 'load', function () {
+        _this.previewBoxShow()
+        _this.removeCanvasImg()
+        _this.settings.previewOpenCallback()
+      })
+
+      this.addEvent(box.querySelector('.previewBodyUtilPrintBtn'), 'click', function () {
+        _this.settings.beforeOpenCallback()
+        _this.settings.openCallback();
+        iframe.contentWindow.print();
+        _this.settings.closeCallback()
+      })
+    }
+  }
+  // 删除所有canva转换的图片
+  removeCanvasImg () {
+    let _this = this
+    try {
+      if (_this.elsdom) {
+        // 删除canva转变图片的dom节点
+        let canvasList = _this.elsdom.querySelectorAll('.canvasImg')
+        for (let i = 0; i < canvasList.length; i++) {
+          canvasList[i].remove()
+        }
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+  print (ifrmae) {
     var _this = this;
-    let iframe = document.getElementById(this.settings.id);
-    let iframeWin = document.getElementById(this.settings.id).contentWindow;
+    let iframe = document.getElementById(this.settings.id) || ifrmae.f;
+    let iframeWin = document.getElementById(this.settings.id).contentWindow || ifrmae.f.contentWindow;
     var _loaded = function () {
 
       iframeWin.focus();
@@ -32,28 +110,13 @@ export default class {
       iframeWin.print();
       iframe.remove() // 删除ifrmae元素
       _this.settings.closeCallback()
-      try {
-
-        let canvasList = this.elsdom.querySelectorAll('.canvasImg')
-        for (let i = 0; i < canvasList.length; i++) {
-          let _parent = canvasList[i].parentNode
-          _parent.removeChild(canvasList[i])
-        }
-        iframe.parentNode.removeChild(iframe);
-      } catch (e) {
-        console.log(e);
-      }
+      _this.removeCanvasImg()
     }
     _this.settings.beforeOpenCallback()
-    if (iframe.attachEvent) {
-      iframe.attachEvent('onload', function () {
-        _loaded()
-      })
-    } else {
-      iframe.onload = function () {
-        _loaded()
-      }
-    }
+    _this.addEvent(iframe, 'load', function () {
+      _loaded()
+    })
+
   }
   write (PADocument) {
     PADocument.open();
@@ -111,6 +174,7 @@ export default class {
 
     return `<head><title>${this.settings.popTitle}</title>${extraHead}${links}<style type="text/css">${style}</style></head>`;
   }
+
   getBody () {
     let ids = this.settings.ids;
     ids = ids.replace(new RegExp("#", "g"), '');
@@ -119,7 +183,7 @@ export default class {
     let htm = ele.outerHTML;
     return '<body>' + htm + '</body>';
   }
-  // 克隆节点之前做的操作
+  // 处理canva转成图片
   beforeHanler (elsdom) {
     let canvasList = elsdom.querySelectorAll('canvas');
     // canvas转换png图片
@@ -131,7 +195,6 @@ export default class {
         _img.className = 'canvasImg'
         _img.style.display = 'none'
         _img.src = _canvasUrl
-        // _parent.replaceChild(_img, canvasList[i])
         _parent.appendChild(_img)
       }
     }
@@ -197,35 +260,136 @@ export default class {
 
     return copy;
   }
-  getPrintWindow () {
-    var f = this.Iframe();
+  getPrintWindow (url) {
+    var f = this.Iframe(url);
     return {
       f: f,
       win: f.contentWindow || f,
       doc: f.doc
     };
   }
-  Iframe () {
+  previewBoxShow () {
+    let box = document.getElementById('vue-pirnt-nb-previewBox')
+    if (box) {
+      document.querySelector('html').setAttribute('style', 'overflow: hidden')
+      box.style.display = 'block'
+    }
+  }
+  previewBoxHide () {
+    let box = document.getElementById('vue-pirnt-nb-previewBox')
+    if (box) {
+      document.querySelector('html').setAttribute('style', 'overflow: visible;')
+      box.querySelector('iframe') && box.querySelector('iframe').remove()
+      box.style.display = 'none'
+    }
+  }
+  previewBox () {
+
+    let box = document.getElementById('vue-pirnt-nb-previewBox')
+    let previewBodyClass = 'previewBody'
+    if (box) {
+      box.querySelector('iframe') && box.querySelector('iframe').remove()
+      return {
+        close: box.querySelector('.previewClose'),
+        previewBody: box.querySelector(`.${previewBodyClass}`)
+      }
+    }
+    let previewContent = document.createElement('div');
+    previewContent.setAttribute('id', "vue-pirnt-nb-previewBox")
+    previewContent.setAttribute('style', 'position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;background: white;display:none')
+    // 打印预览弹窗的header
+    let previewHeader = document.createElement('div');
+    previewHeader.setAttribute('class', "previewHeader")
+    previewHeader.setAttribute('style', "padding: 5px 20px;")
+    previewHeader.innerHTML = this.settings.previewTitle
+    previewContent.appendChild(previewHeader)
+    // close关闭按钮
+    this.close = document.createElement('div');
+    let close = this.close
+    close.setAttribute('class', "previewClose")
+    close.setAttribute('style', "position: absolute;top: 5px;right: 20px;width: 25px;height: 20px;cursor: pointer;")
+    let closeBefore = document.createElement('div');
+    let closeAfter = document.createElement('div');
+    closeBefore.setAttribute('class', "closeBefore")
+    closeBefore.setAttribute('style', "position: absolute;width: 3px;height: 100%;background: #040404;transform: rotate(45deg); top: 0px;left: 50%;")
+    closeAfter.setAttribute('class', "closeAfter")
+    closeAfter.setAttribute('style', "position: absolute;width: 3px;height: 100%;background: #040404;transform: rotate(-45deg); top: 0px;left: 50%;")
+    close.appendChild(closeBefore)
+    close.appendChild(closeAfter)
+    previewHeader.appendChild(close)
+
+    // 打印预览弹窗的body
+    this.previewBody = document.createElement('div');
+    let previewBody = this.previewBody
+    previewBody.setAttribute('class', previewBodyClass)
+    previewBody.setAttribute('style', "display: flex;flex-direction: column; height: 100%;")
+    previewContent.appendChild(previewBody)
+    // 打印预览弹窗的body的工具栏
+    let previewBodyUtil = document.createElement('div');
+    previewBodyUtil.setAttribute('class', "previewBodyUtil")
+    previewBodyUtil.setAttribute('style', "height: 32px;background: #474747;position: relative;")
+    previewBody.appendChild(previewBodyUtil)
+    // 打印的按钮
+    this.previewBodyUtilPrintBtn = document.createElement('div');
+    let previewBodyUtilPrintBtn = this.previewBodyUtilPrintBtn
+    previewBodyUtilPrintBtn.setAttribute('class', 'previewBodyUtilPrintBtn')
+    previewBodyUtilPrintBtn.innerHTML = '打印'
+    previewBodyUtilPrintBtn.setAttribute('style', 'position: absolute;padding: 2px 10px;margin-top: 3px;left: 24px;font-size: 14px;color: white;cursor: pointer;background-color: rgba(0,0,0,.12);background-image: linear-gradient(hsla(0,0%,100%,.05),hsla(0,0%,100%,0));background-clip: padding-box;border: 1px solid rgba(0,0,0,.35);border-color: rgba(0,0,0,.32) rgba(0,0,0,.38) rgba(0,0,0,.42);box-shadow: inset 0 1px 0 hsla(0,0%,100%,.05), inset 0 0 1px hsla(0,0%,100%,.15), 0 1px 0 hsla(0,0%,100%,.05);')
+    previewBodyUtil.appendChild(previewBodyUtilPrintBtn)
+
+    // 添加整个预览到body
+    document.body.appendChild(previewContent);
+
+    return {
+      close: this.close,
+      previewBody: this.previewBody
+    }
+  }
+  iframeBox (frameId, url) {
+    let iframe = document.createElement('iframe');
+    iframe.style.border = '0px';
+    iframe.style.position = 'absolute';
+    iframe.style.width = '0px';
+    iframe.style.height = '0px';
+    iframe.style.right = '0px';
+    iframe.style.top = '0px';
+    iframe.setAttribute('id', frameId);
+    iframe.setAttribute('src', url);
+
+    return iframe
+  }
+  Iframe (url) {
     let frameId = this.settings.id;
-    let iframe;
+    // 局部打印 用当前的时间做ifrmae的url
+    url = !url ? new Date().getTime() : url
+    let _this = this
+
+    let iframe = this.iframeBox(frameId, url)
+
     // let that = this
     try {
-      iframe = document.createElement('iframe');
-      document.body.appendChild(iframe);
-      iframe.style.border = '0px';
-      iframe.style.position = 'absolute';
-      iframe.style.width = '0px';
-      iframe.style.height = '0px';
-      iframe.style.right = '0px';
-      iframe.style.top = '0px';
-      iframe.setAttribute('id', frameId);
-      iframe.setAttribute('src', new Date().getTime());
+      // 直接打印 不预览
+      if (!this.settings.preview) {
+        document.body.appendChild(iframe);
+
+      } else {
+        iframe.setAttribute('style', 'border: 0px;flex: 1;')
+        // 预览打印
+        let previewBox = this.previewBox()
+        let previewBody = previewBox.previewBody
+        let close = previewBox.close
+        // 添加ifrmae到预览弹窗
+        previewBody.appendChild(iframe);
+        this.addEvent(close, 'click', function () {
+          _this.previewBoxHide()
+        })
+      }
+
       iframe.doc = null;
       iframe.doc = iframe.contentDocument ? iframe.contentDocument : (iframe.contentWindow ? iframe.contentWindow.document : iframe.document);
     } catch (e) {
       throw new Error(e + '. iframes may not be supported in this browser.');
     }
-
     if (iframe.doc == null) {
       throw new Error('Cannot find document.');
     }

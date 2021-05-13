@@ -128,7 +128,7 @@ export default {
             printObj: {
               id: "printMe",
               popTitle: 'good print',
-              extraCss: "https://www.google.com/css/css1.css, https://www.google.com/css/css2.css",
+              extraCss: "https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css, https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css",
               extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
               beforeOpenCallback (vue) {
                 vue.printLoading = true
@@ -250,7 +250,7 @@ export default {
               preview: true,
               previewTitle: 'print Title', // The title of the preview window. The default is 打印预览
               popTitle: 'good print',
-              extraCss: "https://www.google.com/css/css1.css, https://www.google.com/css/css2.css",
+              extraCss: "https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css, https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css",
               extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
               previewBeforeOpenCallback () {
                 console.log('正在加载预览窗口')

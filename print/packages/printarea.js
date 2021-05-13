@@ -333,7 +333,7 @@ export default class {
     this.previewBodyUtilPrintBtn = document.createElement('div');
     let previewBodyUtilPrintBtn = this.previewBodyUtilPrintBtn
     previewBodyUtilPrintBtn.setAttribute('class', 'previewBodyUtilPrintBtn')
-    previewBodyUtilPrintBtn.innerHTML = '打印'
+    previewBodyUtilPrintBtn.innerHTML = this.settings.previewPrintBtnLabel
     previewBodyUtilPrintBtn.setAttribute('style', 'position: absolute;padding: 2px 10px;margin-top: 3px;left: 24px;font-size: 14px;color: white;cursor: pointer;background-color: rgba(0,0,0,.12);background-image: linear-gradient(hsla(0,0%,100%,.05),hsla(0,0%,100%,0));background-clip: padding-box;border: 1px solid rgba(0,0,0,.35);border-color: rgba(0,0,0,.32) rgba(0,0,0,.38) rgba(0,0,0,.42);box-shadow: inset 0 1px 0 hsla(0,0%,100%,.05), inset 0 0 1px hsla(0,0%,100%,.15), 0 1px 0 hsla(0,0%,100%,.05);')
     previewBodyUtil.appendChild(previewBodyUtilPrintBtn)
 

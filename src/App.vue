@@ -66,7 +66,8 @@ export default {
       printUrl: {
         url: 'http://localhost:8080/ ',
         preview: true,
-        previewTitle: '订单123456 打印',
+        previewTitle: 'Test Title',
+        previewPrintBtnLabel: 'Print',
         asyncUrl (reslove) {
           setTimeout(() => {
             reslove('http://localhost:8080/')
@@ -93,6 +94,8 @@ export default {
       printObj: {
         id: "printMe",
         preview: true,
+        previewTitle: 'Test Title',
+        previewPrintBtnLabel: 'Print',
         popTitle: "good print",
         extraCss: "https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css, https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css",
         extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',

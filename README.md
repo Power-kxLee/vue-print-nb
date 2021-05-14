@@ -322,23 +322,24 @@ Finally, use `reslove()` to return your URL
 
 ## v-print API
 
-| Parame                    | Explain                                                                                                 | Type     | OptionalValue                                     | DefaultValue |
-| ------------------------- | ------------------------------------------------------------------------------------------------------- | -------- | ------------------------------------------------- | ------------ |
-| id                        | Range print ID, required value                                                                          | String   | —                                                 | —            |
-| standard                  | Document type (Print local range only)                                                                  | String   | html5/loose/strict                                | html5        |
-| extraHead                 | `<head></head>`Add DOM nodes in the node, and separate multiple nodes with `,` (Print local range only) | String   | —                                                 | —            |
-| extraCss                  | `<link>` New CSS style sheet , and separate multiple nodes with `,`(Print local range only)             | String   | —                                                 | -            |
-| popTitle                  | `<title></title>` Content of label (Print local range only)                                             | String   | —                                                 | -            |
-| openCallback              | Call the successful callback function of the printing tool                                              | Function | Returns the instance of `Vue` called at that time | -            |
-| closeCallback             | Close the callback function of printing tool success                                                    | Function | Returns the instance of `Vue` called at that time | -            |
-| beforeOpenCallback        | Callback function before calling printing tool                                                          | Function | Returns the instance of `Vue` called at that time | -            |
-| url                       | Print the specified URL. (It is not allowed to set the ID at the same time)                             | string   | -                                                 | -            |
-| asyncUrl                  | Return URL through 'resolve()' and Vue                                                                  | Function | -                                                 | -            |
-| preview                   | Preview tool                                                                                            | Boolean  | -                                                 | false        |
-| previewTitle              | Preview tool Title                                                                                      | String   | -                                                 | '打印预览'   |
-| previewPrintBtnLabel      | The name of the preview tool button                                                                     | String   | -                                                 | '打印'       |
-| previewBeforeOpenCallback | Callback function before starting preview tool                                                          | Function | Returns the instance of `Vue`                     | -            |
-| previewOpenCallback       | Callback function after fully opening preview tool                                                      | Function | Returns the instance of `Vue`                     | -            |
+| Parame                    | Explain                                                                                                 | Type          | OptionalValue                                     | DefaultValue |
+| ------------------------- | ------------------------------------------------------------------------------------------------------- | ------------- | ------------------------------------------------- | ------------ |
+| id                        | Range print ID, required value                                                                          | String        | —                                                 | —            |
+| standard                  | Document type (Print local range only)                                                                  | String        | html5/loose/strict                                | html5        |
+| extraHead                 | `<head></head>`Add DOM nodes in the node, and separate multiple nodes with `,` (Print local range only) | String        | —                                                 | —            |
+| extraCss                  | `<link>` New CSS style sheet , and separate multiple nodes with `,`(Print local range only)             | String        | —                                                 | -            |
+| popTitle                  | `<title></title>` Content of label (Print local range only)                                             | String        | —                                                 | -            |
+| openCallback              | Call the successful callback function of the printing tool                                              | Function      | Returns the instance of `Vue` called at that time | -            |
+| closeCallback             | Close the callback function of printing tool success                                                    | Function      | Returns the instance of `Vue` called at that time | -            |
+| beforeOpenCallback        | Callback function before calling printing tool                                                          | Function      | Returns the instance of `Vue` called at that time | -            |
+| url                       | Print the specified URL. (It is not allowed to set the ID at the same time)                             | string        | -                                                 | -            |
+| asyncUrl                  | Return URL through 'resolve()' and Vue                                                                  | Function      | -                                                 | -            |
+| preview                   | Preview tool                                                                                            | Boolean       | -                                                 | false        |
+| previewTitle              | Preview tool Title                                                                                      | String        | -                                                 | '打印预览'   |
+| previewPrintBtnLabel      | The name of the preview tool button                                                                     | String        | -                                                 | '打印'       |
+| zIndex                    | CSS of preview tool: z-index                                                                            | String,Number | -                                                 | 20002        |
+| previewBeforeOpenCallback | Callback function before starting preview tool                                                          | Function      | Returns the instance of `Vue`                     | -            |
+| previewOpenCallback       | Callback function after fully opening preview tool                                                      | Function      | Returns the instance of `Vue`                     | -            |
 
 
 

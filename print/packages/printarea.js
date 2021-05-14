@@ -296,7 +296,7 @@ export default class {
     }
     let previewContent = document.createElement('div');
     previewContent.setAttribute('id', "vue-pirnt-nb-previewBox")
-    previewContent.setAttribute('style', 'position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;background: white;display:none')
+    previewContent.setAttribute(`style', 'position: fixed;top: 0px;left: 0px;width: 100%;height: 100%;background: white;display:none;z-index: ${this.settings.zIndex};`)
     // 打印预览弹窗的header
     let previewHeader = document.createElement('div');
     previewHeader.setAttribute('class', "previewHeader")

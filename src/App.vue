@@ -64,7 +64,7 @@ export default {
       printLoading: false,
 
       printUrl: {
-        url: 'http://localhost:8080/ ',
+        // url: 'http://localhost:8080/ ',
         preview: true,
         previewTitle: 'Test Title',
         previewPrintBtnLabel: 'Print',

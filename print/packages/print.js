@@ -2,7 +2,7 @@
  * @Author: lee
  * @Date: 2021-05-10 11:45:50
  * @LastEditors: lee
- * @LastEditTime: 2021-05-14 10:29:32
+ * @LastEditTime: 2021-05-14 10:46:44
  * @Description: file content
  */
 import Print from './printarea.js';
@@ -11,12 +11,21 @@ import Print from './printarea.js';
  * 指令`v-print`,默认打印整个窗口
  * 传入参数`v-print="'#id'"` , 参数为需要打印局部的盒子标识.
  */
+const addEvent = (element, type, callback) => {
+  if (element.addEventListener) {
+    element.addEventListener(type, callback, false);
+  } else if (element.attachEvent) {
+    element.attachEvent('on' + type, callback);
+  } else {
+    element['on' + type] = callback;
+  }
+}
 export default {
   directiveName: 'print',
   bind (el, binding, vnode) {
     let vue = vnode.context;
     let id = '';
-    el.addEventListener('click', () => {
+    addEvent(el, 'click', () => {
       vue.$nextTick(() => {
         if (typeof binding.value === 'string') {
           // 全局打印
@@ -33,8 +42,8 @@ export default {
         }
         localPrint();
       });
+    })
 
-    });
     const localPrint = () => {
       new Print({
         ids: id, // * 局部打印必传入id
@@ -44,9 +53,9 @@ export default {
         extraHead: binding.value.extraHead, // 附加在head标签上的额外标签,使用逗号分隔
         extraCss: binding.value.extraCss, // 额外的css连接，多个逗号分开
         previewTitle: binding.value.previewTitle || '打印预览', // 打印预览的标题
+        zIndex: binding.value.zIndex || 20002, // 预览窗口的z-index
         previewPrintBtnLabel: binding.value.previewPrintBtnLabel || '打印', // 打印预览的标题
         popTitle: binding.value.popTitle, // title的标题
-        zIndex: binding.value.zIndex || 20002, // 预览窗口的z-index
         preview: binding.value.preview || false, // 是否启动预览模式
         asyncUrl: binding.value.asyncUrl,
         previewBeforeOpenCallback () { // 预览窗口打开之前的callback

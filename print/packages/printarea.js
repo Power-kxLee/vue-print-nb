@@ -37,7 +37,7 @@ export default class {
           // 直接打印
           _this.print(PrintAreaWindow);
         }
-      })
+      }, _this.settings.vue)
       return
     }
     let PrintAreaWindow = this.getPrintWindow(url); // 创建iframe

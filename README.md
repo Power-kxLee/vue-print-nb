@@ -292,7 +292,7 @@ export default {
     data() {
         return {
             printObj: {
-              asyncUrl (reslove) {
+              asyncUrl (reslove, vue) {
                 setTimeout(() => {
                   reslove('http://localhost:8080/')
                 }, 2000)
@@ -333,7 +333,7 @@ Finally, use `reslove()` to return your URL
 | closeCallback             | Close the callback function of printing tool success                                                    | Function | Returns the instance of `Vue` called at that time | -            |
 | beforeOpenCallback        | Callback function before calling printing tool                                                          | Function | Returns the instance of `Vue` called at that time | -            |
 | url                       | Print the specified URL. (It is not allowed to set the ID at the same time)                             | string   | -                                                 | -            |
-| asyncUrl                  | Return URL through 'resolve()'                                                                          | Function | -                                                 | -            |
+| asyncUrl                  | Return URL through 'resolve()' and Vue                                                                  | Function | -                                                 | -            |
 | preview                   | Preview tool                                                                                            | Boolean  | -                                                 | false        |
 | previewTitle              | Preview tool Title                                                                                      | String   | -                                                 | '打印预览'   |
 | previewPrintBtnLabel      | The name of the preview tool button                                                                     | String   | -                                                 | '打印'       |

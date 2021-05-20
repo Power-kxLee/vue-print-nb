@@ -4,7 +4,7 @@
 
     </div>
     <div v-if="config">
-      <button v-print="printObj">Print the entire page</button>
+      <button v-print="'#printMe'">Print the entire page</button>
       <div class="box"
            v-show="printLoading">
         <div class="loader-04"></div>

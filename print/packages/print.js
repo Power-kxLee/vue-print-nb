@@ -2,7 +2,7 @@
  * @Author: lee
  * @Date: 2021-05-10 11:45:50
  * @LastEditors: lee
- * @LastEditTime: 2021-05-14 10:46:44
+ * @LastEditTime: 2021-05-20 15:39:43
  * @Description: file content
  */
 import Print from './printarea.js';
@@ -30,8 +30,6 @@ export default {
         if (typeof binding.value === 'string') {
           // 全局打印
           id = binding.value;
-          window.print();
-          return
         } else if (typeof binding.value === 'object' && !!binding.value.id) {
           // 局部打印
           id = binding.value.id;
@@ -39,6 +37,9 @@ export default {
           let elsdom = document.getElementById(ids);
           if (!elsdom) console.log("id in Error"), id = '';
 
+        } else {
+          window.print();
+          return
         }
         localPrint();
       });

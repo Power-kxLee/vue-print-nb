@@ -13,6 +13,7 @@
       <div id="printMe"
            style="background: #dac9c9">
         <div ref="qrcode"></div>
+        <p v-show="printLoading">只在打印显示的内容</p>
         <div ref="echartMain"
              :style="{width: '300px', height: '300px'}"></div>
         <input type="number" />

@@ -77,7 +77,7 @@ export default class {
       })
 
       this.addEvent(box.querySelector('.previewBodyUtilPrintBtn'), 'click', function () {
-        _this.settings.beforeOpenCallback()
+        // _this.settings.beforeOpenCallback()
         _this.settings.openCallback();
         iframe.contentWindow.print();
         _this.settings.closeCallback()
@@ -112,7 +112,7 @@ export default class {
       _this.settings.closeCallback()
       _this.removeCanvasImg()
     }
-    _this.settings.beforeOpenCallback()
+    // _this.settings.beforeOpenCallback()
     _this.addEvent(iframe, 'load', function () {
       _loaded()
     })

@@ -26,6 +26,7 @@ export default {
     let vue = vnode.context;
     let id = '';
     addEvent(el, 'click', () => {
+      binding.value.beforeOpenCallback(vue)
       vue.$nextTick(() => {
         if (typeof binding.value === 'string') {
           // 全局打印

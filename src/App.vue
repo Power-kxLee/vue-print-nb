@@ -1,15 +1,70 @@
 <template>
   <div id="app">
-    <div id="loading">
+    <div id="loading"></div>
 
-    </div>
-    <div v-if="config">
-      <button v-print="'#printMe'">Print the entire page</button>
+    <h3 style="text-align: left;margin-left: 30px;">支持的打印方式:</h3>
+    <el-divider><i class="el-icon-printer"></i></el-divider>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-button type="primary"
+                   icon="el-icon-printer"
+                   v-print>全局打印</el-button>
+        <el-card class="box-card">
+          对当前页面全部进行打印
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-divider><i class="el-icon-printer"></i></el-divider>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-button type="primary"
+                   icon="el-icon-magic-stick"
+                   v-print="'#printMe'">局部打印(快速)</el-button>
+                   <el-card class="box-card">
+          可以打印页面某部分内容，直接传入对应的唯一标识ID
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-button type="primary"
+                   icon="el-icon-umbrella"
+                   v-print="printObj">局部打印(对象配置)</el-button>
+                   <el-card class="box-card">
+          也许你会需要一些配置，可接收一个对象，根据文档API进行设置
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-divider><i class="el-icon-printer"></i></el-divider>
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-button type="primary"
+                   icon="el-icon-bank-card"
+                   v-print="printUrl">预览网址</el-button>
+                   <el-card class="box-card">
+          我需要打印指定的网址(要符合同源策略) 需要传入一个对象，详细看文档API进行设置
+        </el-card>
+      </el-col>
+      <el-col :span="8">
+        <el-button type="primary"
+                   icon="el-icon-wallet"
+                   v-print="printAsyncUrl">预览网址(异步)</el-button>
+                   <el-card class="box-card">
+          你打印的网址(URL)也是可以通过异步得到的
+        </el-card>
+        异步获取URL:<el-progress :text-inside="true" :stroke-width="20" :percentage="times"></el-progress>
+      </el-col>
+    </el-row>
+    <div>
+<el-divider><i class="el-icon-printer"></i></el-divider>
+      <div class="asyncTips">
+
+      </div>
       <div class="box"
            v-show="printLoading">
         <div class="loader-04"></div>
         正在处理...请稍等
       </div>
+      <h3  style="text-align: left;margin-left: 30px;">下面是被打印的例子:</h3>
+
       <div id="printMe"
            style="background: #dac9c9">
         <div ref="qrcode"></div>
@@ -60,56 +115,49 @@ export default {
   name: "app",
   data () {
     return {
-      config: true,
       printLoading: false,
-
-      printUrl: {
-        // url: 'http://localhost:8080/ ',
+      times: 0,
+      printAsyncUrl: {
         preview: true,
         previewTitle: 'Test Title',
         previewPrintBtnLabel: 'Print',
-        asyncUrl (reslove) {
+        asyncUrl (reslove, vue) {
+          const _set = setInterval(() => {
+            vue.times += 20
+          }, 1000)
           setTimeout(() => {
             reslove('http://localhost:8080/')
-          }, 2000)
+            clearInterval(_set)
+          }, 5000)
         },
-        previewBeforeOpenCallback () {
-          console.log('正在加载预览窗口')
-        },
-        previewOpenCallback () {
-          console.log('已经加载完预览窗口')
-        },
-        beforeOpenCallback: function (vue) {
-          vue.printLoading = true
-          console.log('正在准备打印控件')
-        },
-        openCallback (vue) {
-          vue.printLoading = false
-          console.log('已经打开了 打印控件')
-        },
-        closeCallback () {
-          console.log('关闭了打印工具')
-        }
+        previewBeforeOpenCallback: this.previewBeforeOpenCallback ,
+        previewOpenCallback:this.previewOpenCallback,
+        beforeOpenCallback: this.beforeOpenCallback,
+        openCallback: this.openCallback,
+        closeCallback: this.closeCallback,
+        clickMounted: this.clickMounted
+      },
+      printUrl: {
+        url: 'http://127.0.0.1:8080/ ',
+        preview: true,
+        previewTitle: 'Test Title',
+        previewPrintBtnLabel: 'Print',
+        previewBeforeOpenCallback: this.previewBeforeOpenCallback ,
+        previewOpenCallback:this.previewOpenCallback,
+        beforeOpenCallback: this.beforeOpenCallback,
+        openCallback: this.openCallback,
+        closeCallback: this.closeCallback,
+        clickMounted: this.clickMounted
       },
       printObj: {
         id: "printMe",
-        preview: true,
-        previewTitle: 'Test Title',
-        previewPrintBtnLabel: 'Print',
         popTitle: "good print",
         extraCss: "https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css, https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css",
         extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
-        beforeOpenCallback: function (vue) {
-          vue.printLoading = true
-          console.log('正在准备打印控件')
-        },
-        openCallback (vue) {
-          vue.printLoading = false
-          console.log('已经打开了 打印控件')
-        },
-        closeCallback () {
-          console.log('关闭了打印工具')
-        }
+        beforeOpenCallback: this.beforeOpenCallback,
+        openCallback: this.openCallback,
+        closeCallback: this.closeCallback,
+        clickMounted: this.clickMounted
 
       },
     };
@@ -125,6 +173,46 @@ export default {
     });
   },
   methods: {
+    clickMounted(vue) {
+      vue.$notify({
+        title: '消息',
+        message: '点击按钮的回调事件',
+      });
+    },
+    previewBeforeOpenCallback(vue) {
+      vue.$notify({
+        title: '消息',
+        message: '正在加载预览窗口',
+      });
+    },
+    previewOpenCallback(vue) {
+      vue.times = 0
+      vue.$notify({
+            title: '消息',
+            message: '已经加载完预览窗口',
+            type: 'success'
+          });
+    },
+    beforeOpenCallback(vue) {
+      vue.printLoading = true
+      vue.$notify({
+        title: '消息',
+        message: '正在准备打印控件',
+      });
+    },
+    openCallback(vue) {
+      vue.printLoading = false
+      vue.$notify({
+        title: '消息',
+        message: '已经打开了 打印控件',
+      });
+    },
+    closeCallback(vue) {
+      vue.$notify({
+        title: '消息',
+        message: '关闭了打印工具',
+      });
+    },
     beforeOpen () {
       this.printLoading = true
       console.log('准备打开')
@@ -153,14 +241,25 @@ export default {
 };
 </script>
 
-<style scoped>
-#app {
+<style scoped lang="scss">
+#app::v-deep {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+      width: 800px;
+    margin: 0 auto;
+  .el-row {
+    margin-bottom: 20px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    .box-card {
+      margin-top: 10px;
+    }
+  }
 }
 [class*="loader-"] {
   display: inline-block;

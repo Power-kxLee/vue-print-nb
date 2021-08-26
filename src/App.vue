@@ -126,7 +126,7 @@ export default {
             vue.times += 20
           }, 1000)
           setTimeout(() => {
-            reslove('http://localhost:8080/')
+            reslove(process.env.NODE_ENV === 'production' ? 'https://power-kxlee.github.io/' : 'http://localhost:8080/')
             clearInterval(_set)
           }, 5000)
         },
@@ -138,7 +138,7 @@ export default {
         clickMounted: this.clickMounted
       },
       printUrl: {
-        url: 'http://127.0.0.1:8080/ ',
+        url: process.env.NODE_ENV === 'production' ? 'https://power-kxlee.github.io/' : 'http://localhost:8080/',
         preview: true,
         previewTitle: 'Test Title',
         previewPrintBtnLabel: 'Print',

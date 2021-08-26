@@ -1,3 +1,30 @@
+
+ const isIE = () =>{
+	if (!!window.ActiveXobject || "ActiveXObject" in window) {
+		return true;
+	} else {
+		return false;
+	}
+}
+/**
+ * 判断是否是IE11
+ * @returns boolean
+ */
+const isIE11 = () => {
+	if((/Trident\/7\./).test(navigator.userAgent)) {
+		return true;
+	} else {
+		return false;
+	}
+}
+const isRemove = (dom) => {
+  if (isIE() || isIE11()) {
+    dom.removeNode(true)
+  } else {
+    dom.remove()
+  }
+  return dom
+}
 export default class {
   constructor(option) {
 
@@ -92,7 +119,7 @@ export default class {
         // 删除canva转变图片的dom节点
         let canvasList = _this.elsdom.querySelectorAll('.canvasImg')
         for (let i = 0; i < canvasList.length; i++) {
-          canvasList[i].remove()
+          isRemove(canvasList[i])
         }
       }
     } catch (e) {
@@ -108,7 +135,7 @@ export default class {
       iframeWin.focus();
       _this.settings.openCallback();
       iframeWin.print();
-      iframe.remove() // 删除ifrmae元素
+      isRemove(iframe)
       _this.settings.closeCallback()
       _this.removeCanvasImg()
     }
@@ -275,11 +302,13 @@ export default class {
       box.style.display = 'block'
     }
   }
+  
   previewBoxHide () {
     let box = document.getElementById('vue-pirnt-nb-previewBox')
     if (box) {
       document.querySelector('html').setAttribute('style', 'overflow: visible;')
-      box.querySelector('iframe') && box.querySelector('iframe').remove()
+      
+      box.querySelector('iframe') && isRemove(box.querySelector('iframe'))
       box.style.display = 'none'
     }
   }
@@ -288,7 +317,7 @@ export default class {
     let box = document.getElementById('vue-pirnt-nb-previewBox')
     let previewBodyClass = 'previewBody'
     if (box) {
-      box.querySelector('iframe') && box.querySelector('iframe').remove()
+      box.querySelector('iframe') && isRemove(box.querySelector('iframe'))
       return {
         close: box.querySelector('.previewClose'),
         previewBody: box.querySelector(`.${previewBodyClass}`)

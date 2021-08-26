@@ -1,6 +1,6 @@
 {
   "name": "vue-print-nb",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "description": "Vue plug-in, print! Good!",
   "main": "lib/print.umd.min.js",
   "author": "Power-kxLee",
@@ -16,16 +16,21 @@
     "vue": "^2.6.11"
   },
   "devDependencies": {
-    "vue-router": "^3.5.1",
-    "core-js": "^3.6.5",
-    "echarts": "^5.0.2",
-    "qrcodejs2": "0.0.2",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "babel-eslint": "^10.1.0",
+    "core-js": "^3.6.5",
+    "echarts": "^5.0.2",
+    "element-ui": "^2.15.5",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
+    "less": "^3.9.0",
+    "less-loader": "^4.1.0",
+    "qrcodejs2": "0.0.2",
+    "sass": "^1.32.8",
+    "sass-loader": "^7.3.1",
+    "vue-router": "^3.5.1",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {

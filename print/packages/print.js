@@ -27,21 +27,27 @@ export default {
     let id = '';
     addEvent(el, 'click', () => {
       vue.$nextTick(() => {
+        if (binding?.value?.clickMounted) {
+          binding.value.clickMounted(vue)
+        }
         if (typeof binding.value === 'string') {
           // 全局打印
           id = binding.value;
+          localPrint();
         } else if (typeof binding.value === 'object' && !!binding.value.id) {
           // 局部打印
           id = binding.value.id;
           let ids = id.replace(new RegExp("#", "g"), '');
           let elsdom = document.getElementById(ids);
           if (!elsdom) console.log("id in Error"), id = '';
+          localPrint();
 
+        } else if(binding?.value?.preview) {
+          localPrint();
         } else {
           window.print();
           return
         }
-        localPrint();
       });
     })
 

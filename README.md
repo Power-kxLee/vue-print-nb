@@ -22,6 +22,10 @@ This is a directive wrapper for printed, Simple, fast, convenient, light.
 <!-- /TOC -->
 ## Install
 
+[在线DEMO](https://power-kxlee.github.io/vue-print-nb/dist/index.html)
+
+[ONLINE DEMO](https://power-kxlee.github.io/vue-print-nb/dist/index.html)
+
 ### Vue2 Version:
 ```bash
 npm install vue-print-nb --save
@@ -41,6 +45,7 @@ import print from 'vue-print-nb'
 directives: {
     print   
 }
+
 ```
 ### Vue3 Version:
 ```bash

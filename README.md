@@ -201,10 +201,10 @@ export default {
               url: 'http://localhost:8080/'
               preview: true,
               previewTitle: 'Test Title', // The title of the preview window. The default is 打印预览
-              previewBeforeOpenCallback () {
+              previewBeforeOpenCallback (vue) {
                 console.log('正在加载预览窗口')
               },
-              previewOpenCallback () {
+              previewOpenCallback (vue) {
                 console.log('已经加载完预览窗口')
               },
               beforeOpenCallback (vue) {
@@ -252,10 +252,10 @@ export default {
               popTitle: 'good print',
               extraCss: "https://cdn.bootcdn.net/ajax/libs/animate.css/4.1.1/animate.compat.css, https://cdn.bootcdn.net/ajax/libs/hover.css/2.3.1/css/hover-min.css",
               extraHead: '<meta http-equiv="Content-Language"content="zh-cn"/>',
-              previewBeforeOpenCallback () {
+              previewBeforeOpenCallback (vue) {
                 console.log('正在加载预览窗口')
               },
-              previewOpenCallback () {
+              previewOpenCallback (vue) {
                 console.log('已经加载完预览窗口')
               },
               beforeOpenCallback (vue) {
@@ -297,10 +297,10 @@ export default {
                   reslove('http://localhost:8080/')
                 }, 2000)
               },
-              previewBeforeOpenCallback () {
+              previewBeforeOpenCallback (vue) {
                 console.log('正在加载预览窗口')
               },
-              previewOpenCallback () {
+              previewOpenCallback (vue) {
                 console.log('已经加载完预览窗口')
               },
               beforeOpenCallback (vue) {
@@ -340,6 +340,7 @@ Finally, use `reslove()` to return your URL
 | zIndex                    | CSS of preview tool: z-index                                                                            | String,Number | -                                                 | 20002        |
 | previewBeforeOpenCallback | Callback function before starting preview tool                                                          | Function      | Returns the instance of `Vue`                     | -            |
 | previewOpenCallback       | Callback function after fully opening preview tool                                                      | Function      | Returns the instance of `Vue`                     | -            |
+| clickMounted       | Click the callback function of the print button                                                    | Function      | Returns the instance of `Vue`                     | -            |
 
 
 

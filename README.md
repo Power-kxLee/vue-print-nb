@@ -151,7 +151,7 @@ export default {
     }
 }
 ```
-You can also pass in an object type `Objcet`
+You can also pass in an object type `Object`
 
 
 ### Print URL:
